@@ -10,9 +10,28 @@ Window {
     height: 1280
     title: "Azura Mobile"
 
-    Wallpaper {}
+    Item {
+        id: mainContent
+        anchors.fill: parent
 
-    StatusBar {}
+        Wallpaper {}
 
-    QuickSettings {}
+        StatusBar {}
+
+    }
+
+    Item {
+        anchors.fill: parent
+
+        ShaderEffectSource {
+            id: backgroundBlurSrc
+            anchors.fill: parent
+            sourceItem: mainContent
+            sourceRect: Qt.rect(0, 0, width, height)
+            live: true
+            visible: false
+        }
+
+        QuickSettings {}        
+    }
 }

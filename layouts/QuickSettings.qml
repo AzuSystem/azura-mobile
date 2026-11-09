@@ -9,6 +9,16 @@ Item {
     width: parent.width
     height: parent.height
 
+    readonly property bool isSoftwareRendered: GraphicsInfo.api === GraphicsInfo.Software
+    property date currentTime: new Date()
+
+    Timer {
+        interval: 1000
+        running: true
+        repeat: true
+        onTriggered: currentTime = new Date()
+    }
+
     FontLoader { 
         id: dmsans
         source: "../assets/fonts/DMSans-VariableFont.ttf" 
@@ -17,6 +27,16 @@ Item {
     FontLoader { 
         id: inter
         source: "../assets/fonts/Inter-Regular.ttf" 
+    }
+
+    MultiEffect {
+        source: backgroundBlurSrc
+        anchors.fill: parent
+
+        blurEnabled: true
+        blurMax: 64
+        blur: 1
+        autoPaddingEnabled: false
     }
 
     Rectangle {
@@ -35,6 +55,13 @@ Item {
         }
     }
 
+    Image {
+        source: "../assets/noise.png"
+        opacity: 0.05
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+    }
+
     Item {
         width: 720
         height: quicksettings.height
@@ -50,14 +77,14 @@ Item {
 
                 Text {
                     id: sourceTimeLabel
-                    text: "14:00"
+                    text: Qt.formatTime(currentTime, "hh:mm")
                     font.pixelSize: 128
                     font.family: dmsans.name
                     font.weight: Font.Medium
                     color: "#CCffffff"
                     style: Text.Outline
                     styleColor: "#20000000"
-                    visible: false
+                    visible: isSoftwareRendered
                 }
 
                 MultiEffect {
@@ -67,7 +94,7 @@ Item {
                     // x: 69
                     // y: 104
 
-                    shadowEnabled: true
+                    shadowEnabled: !isSoftwareRendered
                     shadowColor: "#000000"
                     shadowOpacity: 0.35
                     blurMax: 12
@@ -83,14 +110,14 @@ Item {
 
                 Text {
                     id: sourceDateLabel
-                    text: "Wednesday, Oct 1"
+                    text: Qt.formatDate(currentTime, "dddd, MMM d") 
                     font.pixelSize: 48
                     font.family: inter.name
                     font.weight: Font.ExtraLight
                     color: "#99ffffff"
                     style: Text.Outline
                     styleColor: "#20000000"
-                    visible: false
+                    visible: isSoftwareRendered
                 }
 
                 MultiEffect {
@@ -100,7 +127,7 @@ Item {
                     // x: 69
                     // y: 220
 
-                    shadowEnabled: true
+                    shadowEnabled: !isSoftwareRendered
                     shadowColor: "#000000"
                     shadowOpacity: 0.48
                     blurMax: 8
@@ -112,7 +139,9 @@ Item {
 
         }
 
-        Row {
+        Item {
+            width: 606
+            height: 118
             y: 376
 
             Rectangle {
@@ -121,59 +150,132 @@ Item {
                 height: 118
                 radius: 24
                 color: "transparent"
-                visible: false
+                visible: isSoftwareRendered
+                anchors.left: parent.left
+
 
                 Image {
-                    id: wifiBtnBase
-                    source: "../assets/ui/qs/bigButton_red.png"
+                    source: "../assets/ui/qs/wifi_on.png"
                     anchors.fill: parent
                 }
+                Item {
+                    id: wifiBtnContent
+                    anchors.fill: parent
+                    visible: isSoftwareRendered
 
-                Image {
-                    id: wifiIcon
-                    source: "../assets/ui/qs/icons/wifi.png"
-                    width: 50
-                    height: 36
-                    x: 36
-                    y: 41
-                    visible: false
+
+                    Text {
+                        id: wifiName
+                        text: "neighbour dude"
+                        font.pixelSize: 20
+                        font.weight: Font.Medium
+                        color: "white"
+                        x: 104
+                        y: 39
+                        width: 148
+                        elide: Text.ElideRight
+                    }
+
+                    Text {
+                        text: "Wi-Fi"
+                        font.pixelSize: 12
+                        font.weight: Font.Light
+                        color: "white"
+                        x: 104
+                        y: 63
+                    }                    
                 }
 
                 MultiEffect {
-                    source: wifiIcon
-                    anchors.fill: wifiIcon
+                    anchors.fill: wifiBtnContent
+                    source: wifiBtnContent
 
-                    shadowEnabled: true
+                    shadowEnabled: !isSoftwareRendered
                     shadowColor: "#000000"
                     shadowOpacity: 0.15
                     blurMax: 6
                     shadowBlur: 1
-                    shadowVerticalOffset: 4
+                    shadowVerticalOffset: 3
                     shadowHorizontalOffset: 0
                 }
 
-                Text {
-                    text: "neighbour dude"
-                    font.pixelSize: 20
-                    font.weight: Font.Medium
-                    color: "white"
-                    x: 104
-                    y: 39
+            }
+
+            Rectangle {
+                id: bluetoothBtn
+                width: 278
+                height: 118
+                radius: 24
+                color: "transparent"
+                anchors.right: parent.right
+                visible: isSoftwareRendered
+
+                Image {
+                    source: "../assets/ui/qs/bluetooth_on.png"
+                    anchors.fill: parent
                 }
 
-                Text {
-                    text: "Wi-Fi"
-                    font.pixelSize: 12
-                    font.weight: Font.Light
-                    color: "white"
-                    x: 104
-                    y: 63
+                Item {
+                    id: bluetoothBtnContent
+                    anchors.fill: parent
+                    visible: isSoftwareRendered
+
+
+                    Text {
+                        id: bluetoothName
+                        text: "neighbour dude"
+                        font.pixelSize: 20
+                        font.weight: Font.Medium
+                        color: "white"
+                        x: 104
+                        y: 39
+                        width: 148
+                        elide: Text.ElideRight
+                    }
+
+                    Text {
+                        text: "Bluetooth"
+                        font.pixelSize: 12
+                        font.weight: Font.Light
+                        color: "white"
+                        x: 104
+                        y: 63
+                    }                    
+                }
+
+                MultiEffect {
+                    anchors.fill: bluetoothBtnContent
+                    source: bluetoothBtnContent
+
+                    shadowEnabled: !isSoftwareRendered
+                    shadowColor: "#000000"
+                    shadowOpacity: 0.15
+                    blurMax: 6
+                    shadowBlur: 1
+                    shadowVerticalOffset: 3
+                    shadowHorizontalOffset: 0
                 }
             }
+
+
+
 
             MultiEffect {
                 source: wifiBtn
                 anchors.fill: wifiBtn
+
+                shadowEnabled: true
+                shadowColor: "#000000"
+                shadowOpacity: 0.25
+                blurMax: 12
+                shadowBlur: 1
+                shadowVerticalOffset: 4
+                shadowHorizontalOffset: 0
+            }
+
+            MultiEffect {
+                source: bluetoothBtn
+                anchors.fill: bluetoothBtn
 
                 shadowEnabled: true
                 shadowColor: "#000000"

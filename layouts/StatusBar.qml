@@ -13,8 +13,9 @@ Item {
     height: 24
 
     Item {
-        x: 52
         height: 24
+        anchors.left: parent.left
+        anchors.leftMargin: 52
 
         Text {
             text: "25:00"
@@ -26,9 +27,10 @@ Item {
 
 
     Item {
-        x: statusbar.width - width - 52
         height: 24
-
+        anchors.right: parent.right
+        anchors.rightMargin: 52
+        
         Text {
             text: "25:00"
             font.family: Font.Normal
