@@ -9,6 +9,41 @@ Item {
     width: parent.width
     height: parent.height
 
+    property real distancePastDrag: statusbarDrag - 200
+    property real constantResistance: 0.18
+
+    // google gave me this formula, so i shall work it out
+    // b = d * x / (d + c * x)
+
+    // Source: google search overview
+    // x: The raw distance pulled past the boundary (x = pointer_pos - limit).
+    // d: The reference dimension (the width or height of the scroll container/view).
+    // c: The constant of elasticity or resistance. For standard iOS UIScrollView, c ≈ 0.55.
+    // b: The actual clamped/dampened displacement rendered on screen. 
+    //    As x → ∞, the term inside the parenthesis approaches 1.0, meaning b asymptotically approaches
+    //    d ⋅ (1 - something) < d, so the element can never travel a full screen-height past the edge.
+    //    - Source: https://stackoverflow.com/questions/22133503/rubber-band-effect
+
+    y: ( height * constantResistance * distancePastDrag ) / ( height + constantResistance * distancePastDrag )
+    // y:  100
+    Connections {
+        target: window
+        function onWasStatusbarDragReleasedChanged() {
+            returnAnim.to = 0
+            returnAnim.start()
+        }
+    }
+
+    SpringAnimation {
+        id: returnAnim
+        target: quicksettings
+        property: "y"
+
+        spring: 3
+        damping: 0.25
+        duration: 150
+    }
+
     readonly property bool isSoftwareRendered: GraphicsInfo.api === GraphicsInfo.Software
     property date currentTime: new Date()
     property bool isTablet: false
