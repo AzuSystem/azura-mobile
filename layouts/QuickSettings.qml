@@ -11,6 +11,7 @@ Item {
 
     readonly property bool isSoftwareRendered: GraphicsInfo.api === GraphicsInfo.Software
     property date currentTime: new Date()
+    property bool isTablet: false
 
     Timer {
         interval: 1000
@@ -65,6 +66,8 @@ Item {
     Item {
         width: 720
         height: quicksettings.height
+
+        anchors.horizontalCenter: isTablet ? undefined : parent.horizontalCenter
 
         Column {
             spacing: -25
@@ -140,6 +143,7 @@ Item {
         }
 
         Item {
+            anchors.horizontalCenter: parent.horizontalCenter
             width: 606
             height: 118
             y: 376
@@ -223,7 +227,7 @@ Item {
 
                     Text {
                         id: bluetoothName
-                        text: "neighbour dude"
+                        text: "cool headphones"
                         font.pixelSize: 20
                         font.weight: Font.Medium
                         color: "white"
@@ -286,6 +290,91 @@ Item {
                 shadowHorizontalOffset: 0
             }
 
+        }
+
+        Item {
+            id: buttonGrid
+            width: 603
+            height: 500
+            y: 545
+            visible: isSoftwareRendered
+            anchors.horizontalCenter: parent.horizontalCenter
+
+
+            Grid {
+                // anchors.fill: parent
+
+                // cellWidth: 118
+                // cellHeight: 118
+                columns: 4
+                spacing: 44
+                // interactive: false
+                // keyNavigationEnabled: true
+
+                Rectangle {
+                    id: mobileData
+                    width: 118
+                    height: 118
+                    radius: 59
+                    color: "transparent"
+
+                    Image {
+                        source: "../assets/ui/qs/mobiledata_off.png"
+                        anchors.fill: parent
+                    }
+                }
+
+                Rectangle {
+                    width: 118
+                    height: 118
+                    radius: 59
+                    color: "transparent"
+
+                    Image {
+                        source: "../assets/ui/qs/torch_off.png"
+                        anchors.fill: parent
+                    }
+                }
+
+                Rectangle {
+                    width: 118
+                    height: 118
+                    radius: 59
+                    color: "transparent"
+
+                    Image {
+                        source: "../assets/ui/qs/dnd_off.png"
+                        anchors.fill: parent
+                    }
+                }
+
+                Rectangle {
+                    width: 118
+                    height: 118
+                    radius: 59
+                    color: "transparent"
+
+                    Image {
+                        source: "../assets/ui/qs/screenshot.png"
+                        anchors.fill: parent
+                    }
+                }
+
+
+            }
+        }
+
+        MultiEffect {
+            source: buttonGrid
+            anchors.fill: buttonGrid
+
+            shadowEnabled: !isSoftwareRendered
+            shadowColor: "#000000"
+            shadowOpacity: 0.25
+            blurMax: 12
+            shadowBlur: 1
+            shadowVerticalOffset: 4
+            shadowHorizontalOffset: 0
         }
     }
 }
