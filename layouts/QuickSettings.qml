@@ -6,8 +6,8 @@ import QtQuick.Window
 
 Item {
     id: quicksettings
-    width: 720
-    height: 1280
+    width: window.width
+    height: window.height / container.scale
 
     property real distancePastDrag: statusbarDrag - 200
     property real constantResistance: 0.18

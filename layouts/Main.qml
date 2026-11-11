@@ -17,26 +17,28 @@ Window {
     Wallpaper { id: wallpaper }
 
     Item {
+        id: container
         anchors.fill: parent
-        scale: window.width / 720
+        scale: Math.min(window.width / 720, window.height / 1280) 
         transformOrigin: Item.Top
         // Item {
         //     id: wallpaper
         //     anchors.fill: parent
- height: window.height / scale
+ // height: window.height / scale
 
 
 
         // }
 
         Item {
-            anchors.fill: parent
+            width: window.width
+            height: window.height / container.scale
 
             ShaderEffectSource {
                 id: backgroundBlurSrc
                 anchors.fill: parent
                 sourceItem: wallpaper
-                sourceRect: Qt.rect(0, 0, width, height)
+                sourceRect: Qt.rect(0, 0, wallpaper.width, wallpaper.height)
                 live: true
                 visible: false
             }
