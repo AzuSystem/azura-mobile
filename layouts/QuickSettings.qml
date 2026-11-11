@@ -58,7 +58,9 @@ Item {
 
     MultiEffect {
         source: backgroundBlurSrc
-        anchors.fill: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: window.width / container.scale
+        height: quicksettings.height
 
         blurEnabled: true
         blurMax: 64
@@ -67,7 +69,9 @@ Item {
     }
 
     Rectangle {
-        anchors.fill: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: window.width / container.scale
+        height: quicksettings.height
         opacity: 0.6
 
         // Image {
@@ -80,20 +84,26 @@ Item {
             GradientStop { position: 0.15; color: "black" }
             GradientStop { position: 1.00; color: "transparent" }
         }
+
+        Component.onCompleted: { console.log(container.scale)}
     }
 
     Image {
         source: "../assets/noise.png"
         opacity: 0.05
-        anchors.fill: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: window.width / container.scale
+        height: quicksettings.height
         fillMode: Image.PreserveAspectCrop
     }
 
     Item {
         id: quickSettingsContent
         // anchors.fill: parent
-        width: wallpaper.width
-        height: wallpaper.height
+        width: window.width / container.scale
+        height: quicksettings.height
+        anchors.horizontalCenter: parent.horizontalCenter
+
 
         y: ( height * constantResistance * distancePastDrag ) / ( height + constantResistance * distancePastDrag )
         Connections {

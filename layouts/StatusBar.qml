@@ -5,7 +5,8 @@ import QtQuick.Window
 
 Item {
 	id: statusbar
-	width: parent.width
+	width: window.width / container.scale
+	anchors.horizontalCenter: parent.horizontalCenter
 	height: 32 + 24
 
 	Item {

@@ -6,13 +6,17 @@ import QtQuick.Window
 Window {
     id: window
     visible: true
-    width: height * ( 9/16 )
+    // width: height * ( 9/16 )
     // height: 1280
     title: "Azura Mobile"
     color: "black"
 
     property real statusbarDrag: 0
     property bool wasStatusbarDragReleased: false
+
+    Component.onCompleted: {
+        width = height * ( 9/16 )
+    }
 
     Wallpaper { id: wallpaper }
 
@@ -21,6 +25,7 @@ Window {
         anchors.fill: parent
         scale: Math.min(window.width / 720, window.height / 1280) 
         transformOrigin: Item.Top
+
         // Item {
         //     id: wallpaper
         //     anchors.fill: parent
