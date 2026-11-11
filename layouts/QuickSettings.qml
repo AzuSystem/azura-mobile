@@ -6,11 +6,22 @@ import QtQuick.Window
 
 Item {
     id: quicksettings
-    width: parent.width
-    height: parent.height
+    width: 720
+    height: 1280
 
     property real distancePastDrag: statusbarDrag - 200
     property real constantResistance: 0.18
+
+
+    opacity: statusbarDrag / 500
+
+    NumberAnimation {
+        id: fadeIn
+        target: quicksettings
+        property: "opacity"
+
+        duration: 150
+    }
 
     // google gave me this formula, so i shall work it out
     // b = d * x / (d + c * x)
@@ -81,18 +92,8 @@ Item {
     Item {
         id: quickSettingsContent
         // anchors.fill: parent
-        width: quicksettings.width
-        height: quicksettings.height
-
-        opacity: statusbarDrag / 500
-
-        NumberAnimation {
-            id: fadeIn
-            target: quickSettingsContent
-            property: "opacity"
-
-            duration: 150
-        }
+        width: wallpaper.width
+        height: wallpaper.height
 
         y: ( height * constantResistance * distancePastDrag ) / ( height + constantResistance * distancePastDrag )
         Connections {

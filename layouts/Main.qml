@@ -6,23 +6,28 @@ import QtQuick.Window
 Window {
     id: window
     visible: true
-    width: 720
-    height: 1280
+    width: height * ( 9/16 )
+    // height: 1280
     title: "Azura Mobile"
+    color: "black"
 
     property real statusbarDrag: 0
     property bool wasStatusbarDragReleased: false
 
+    Wallpaper { id: wallpaper }
+
     Item {
         anchors.fill: parent
-        Item {
-            id: mainContent
-            anchors.fill: parent
+        scale: window.width / 720
+        transformOrigin: Item.Top
+        // Item {
+        //     id: wallpaper
+        //     anchors.fill: parent
+ height: window.height / scale
 
-            Wallpaper {}
 
 
-        }
+        // }
 
         Item {
             anchors.fill: parent
@@ -30,7 +35,7 @@ Window {
             ShaderEffectSource {
                 id: backgroundBlurSrc
                 anchors.fill: parent
-                sourceItem: mainContent
+                sourceItem: wallpaper
                 sourceRect: Qt.rect(0, 0, width, height)
                 live: true
                 visible: false
